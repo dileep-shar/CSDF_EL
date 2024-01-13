@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 @Entity
 @Builder
@@ -30,5 +31,5 @@ public class DockerImage {
     }
 
     @ManyToMany(mappedBy = "imageFiles")
-    private ArrayList<User> users;
+    private Set<User> users;
 }

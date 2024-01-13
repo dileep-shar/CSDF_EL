@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 
 @Entity
@@ -23,5 +24,5 @@ public class User {
             name = "image_user",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "image_id"))
-    private ArrayList<DockerImage> imageFiles;
+    private Set<DockerImage> imageFiles;
 }

@@ -10,8 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -27,6 +26,7 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         user.setEmail(userModel.getEmail());
         user.setName(userModel.getName());
+        user.setImageFiles(new HashSet<>());
         userRepository.save(user);
         return user;
     }
@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
         System.out.println(imageAdder.getUserEmail());
         User user = userRepository.findByEmail(imageAdder.getUserEmail());
         System.out.println("Here4");
-        List<DockerImage> images = user.getImageFiles();
+        Set<DockerImage> images = user.getImageFiles();
         System.out.println("Here3");
         for (DockerImage image : images) {
             if (image.getImageName().equals(imageAdder.getImageName()))
@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean deleteImage(ImageAdder imageAdder) throws IOException, InterruptedException {
         User user = userRepository.findByEmail(imageAdder.getUserEmail());
-        List<DockerImage> images = user.getImageFiles();
+        Set<DockerImage> images = user.getImageFiles();
         DockerImage imageToBeRemoved = null;
         for (DockerImage image : images) {
             if (image.getImageName().equals(imageAdder.getImageName())) {
