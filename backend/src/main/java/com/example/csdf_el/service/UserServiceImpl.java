@@ -27,21 +27,25 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         user.setEmail(userModel.getEmail());
         user.setName(userModel.getName());
-
         userRepository.save(user);
         return user;
     }
 
     @Override
     public DockerImage addImage(ImageAdder imageAdder) throws IOException, InterruptedException {
+        System.out.println("Here5");
+        System.out.println(imageAdder.getUserEmail());
         User user = userRepository.findByEmail(imageAdder.getUserEmail());
+        System.out.println("Here4");
         List<DockerImage> images = user.getImageFiles();
+        System.out.println("Here3");
         for (DockerImage image : images) {
             if (image.getImageName().equals(imageAdder.getImageName()))
                 return image;
         }
+        System.out.println("Here");
         DockerImage result = imageService.addOrUpdateImage(imageAdder.getImageName());
-
+        System.out.println("Here2");
         images.add(result);
         userRepository.save(user);
         return result;

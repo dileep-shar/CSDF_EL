@@ -13,14 +13,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.ArrayList;
-
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class UserController {
     @Autowired
     private UserService userService;
 
+    // Validation of user if he exists or not.
     @PostMapping("/user/register")
     public ResponseEntity<?> registerUser(@RequestBody UserModel userModel) {
         User user = userService.registerUser(userModel);
@@ -38,7 +40,14 @@ public class UserController {
 //            throw new RuntimeException(e);
         }
     }
-
+    @PostMapping("/user/uploadImage")
+    public ResponseEntity<?> uploadImage(@RequestBody ImageAdder imageAdder){
+        return new ResponseEntity<>("Not Implemented", HttpStatus.BAD_REQUEST);
+    }
+    @PostMapping("/user/deleteImage")
+    public ResponseEntity<?> removeImage(@RequestBody ImageAdder imageAdder){
+        return new ResponseEntity<>("Not Implemented", HttpStatus.BAD_REQUEST);
+    }
     @PostMapping("/user/fetchAllImages")
     public ResponseEntity<?> fetchAllImages(@RequestBody UserModel userModel) {
         try {
