@@ -71,6 +71,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public ArrayList<String> fetchImages(UserModel userModel) {
         User user = userRepository.findByEmail(userModel.getEmail());
+        System.out.println(user);
         ArrayList<String> ret = new ArrayList<>();
         for(DockerImage d:user.getImageFiles()){
             ret.add(d.getReport());

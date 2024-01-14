@@ -53,6 +53,7 @@ public class UserController {
         try {
             ArrayList<String> imageResults = userService.fetchImages(userModel);
             Gson gson = new Gson();
+            System.out.println(imageResults);
             String jsonArray = gson.toJson(imageResults);
             JsonObject returner = new JsonObject();
             returner.addProperty("reports", jsonArray);
