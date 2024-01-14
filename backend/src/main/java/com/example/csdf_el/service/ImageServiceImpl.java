@@ -19,7 +19,7 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public DockerImage addOrUpdateImage(String imageName) throws IOException, InterruptedException {
 //        try {
-        String report = imageSavingHelper.filterJSONObject(imageSavingHelper.fetchJSONObjectThroughCommandForImageId(imageName));
+        String report = imageSavingHelper.fetchJSONObjectThroughCommandForImageId(imageName);
         DockerImage dockerImage = new DockerImage();
         dockerImage.setReport(report);
         dockerImage.setImageName(imageName);
@@ -28,6 +28,6 @@ public class ImageServiceImpl implements ImageService {
 //            System.out.println("Exception" + e);
 //            return null;
 //        }
-        return null;
+        return dockerImage;
     }
 }

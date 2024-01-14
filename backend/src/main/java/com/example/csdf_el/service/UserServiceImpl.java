@@ -33,12 +33,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public DockerImage addImage(ImageAdder imageAdder) throws IOException, InterruptedException {
-        System.out.println("Here5");
-        System.out.println(imageAdder.getUserEmail());
+        System.out.println(imageAdder.getImageName());
         User user = userRepository.findByEmail(imageAdder.getUserEmail());
-        System.out.println("Here4");
         Set<DockerImage> images = user.getImageFiles();
-        System.out.println("Here3");
         for (DockerImage image : images) {
             if (image.getImageName().equals(imageAdder.getImageName()))
                 return image;
