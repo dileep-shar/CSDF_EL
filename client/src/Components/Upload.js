@@ -4,11 +4,17 @@ import axios from "axios";
 const Upload = (props) => {
 
   const addImageId=async()=>{
+    try{
     let id=document.getElementById("docker_image_id_2");
-    let res=axios.post("http://localhost:5000/user/addImage",{
+    let res=await axios.post("http://localhost:5000/user/addImage",{
       imageName:id.value,
       userEmail:props.email
     })
+    console.log(res);
+  }
+  catch(e){
+    console.log(e);
+  }
   }
   // const uploadFile = async () => {
   //   let file = document.getElementById("uploadedFile").files[0];
