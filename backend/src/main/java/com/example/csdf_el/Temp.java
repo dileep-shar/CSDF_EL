@@ -23,7 +23,8 @@ public class Temp {
         String[] cmd = {"/bin/bash", "-c",trivy_cmd };
         Process proc = Runtime.getRuntime().exec(cmd);
         int exc = proc.waitFor();
-//        System.out.println(exc);
+        System.out.println(trivy_cmd);
+        System.out.println(exc);
         Path path= Paths.get(fileName);
         String jsonString= Files.readString(path);
         jsonString="{\n\"name\":"+imageId+",\n\"data\":"+jsonString+"\n}";

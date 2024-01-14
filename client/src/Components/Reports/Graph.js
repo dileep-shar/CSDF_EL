@@ -1,51 +1,39 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
-export default function Graph({data,xCol,yCol,reRender,graphType}) {
-  const [graph, setgraph] = useState(()=><div></div>);
+export default function Graph({graphInfo,graphType}) {
+  const [graph, setGraph] = useState(()=><div></div>);
 
-  useEffect(() => {
-    handleDataChange();
-  }, [reRender,xCol,yCol]);
   useEffect(()=>{
     handleDataChange()
-    console.log(graphType)
-    console.log("Graph type Changed")
-  },[graphType])
+  },[graphType,graphInfo])
+
+  useEffect(()=>{
+
+  },[graph])
   async function handleDataChange() {
-    fetchgraphData(data);
+    if(!graphInfo||!graphInfo.series||!graphInfo.labels)return
+    fetchGraphData();
   }
   let graphs={
     // "Bar":(graphData)=><Chart options={graphData.options} series={graphData.series} labels={graphData.labels} type="bar" />,
-    "Pie":(graphData)=><Chart options={graphData.options} series={graphData.series} labels={graphData.labels} type="pie"  />,
+    "Pie":(graphData)=><Chart  options={graphData.options} series={graphData.series} labels={graphData.labels} type="pie"  />,
     "Donut":(graphData)=><Chart options={graphData.options} series={graphData.series} labels={graphData.labels} type="donut" />,
   }
-  function fetchgraphData(sqlD) {
-    if(!xCol||!yCol)return
-    if (sqlD == null || sqlD.length == 0) return;
-    let yval = [];
-    let xval = [];
-    sqlD.forEach((datapoint) => {
-      xval.push(datapoint[xCol]);
-      yval.push(datapoint[yCol]);
-    });
+  function fetchGraphData() {
     let tmp = {
       options: {
-        labels: xval,
-        title: {
-          text: xCol,
-          align:"center",
-        },
+        labels: graphInfo.labels,
       },
-      series: yval,
-      labels: xval,
+      series: graphInfo.series,
+      labels: graphInfo.labels,
     };
-    loadgraph(tmp);
+    loadGraph(tmp);
   }
-  const loadgraph = (graphData) => {
+  const loadGraph = (graphData) => {
     try {
       if (graphData == null || graphData.length == 0) return;
-      setgraph(()=> <div>
+      setGraph(()=> <div>
         <div style={{ width: "50%" }}></div>
         {graphs[graphType](graphData)}
         </div>);

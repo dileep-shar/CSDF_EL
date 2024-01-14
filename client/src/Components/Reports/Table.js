@@ -3,9 +3,11 @@ import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 
 export default function Table({data}) {
-  const [columns, setcolumns] = useState([]);
+  const [columns, setColumns] = useState([]);
+  const [row,setRows]=useState([])
   useEffect(() => {
     getColumnNames(data)
+  setRows(data)
   }, [data]);
 
   function getColumnNames() {
@@ -21,13 +23,13 @@ export default function Table({data}) {
         sortable: true,
       });
     }
-    setcolumns(ret)
+    setColumns(ret)
   }
 
   return (
     <>
       <DataTable
-        data={data}
+        data={row}
         columns={columns}
         responsive={true}
         reorder={true}
