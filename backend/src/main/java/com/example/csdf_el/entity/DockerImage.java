@@ -21,15 +21,6 @@ public class DockerImage {
     @Column(columnDefinition = "JSON")
     private String report;
 
-    public String getReport() {
-        return report;
-    }
-
-
-    public void setReport(String report) {
-        this.report = report;
-    }
-
     @ManyToMany(mappedBy = "imageFiles")
     private Set<User> users;
 }

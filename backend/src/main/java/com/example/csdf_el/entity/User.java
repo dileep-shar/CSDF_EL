@@ -19,7 +19,7 @@ public class User {
     private String email;
 
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinTable(
             name = "image_user",
             joinColumns = @JoinColumn(name = "user_id"),

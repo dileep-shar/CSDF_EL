@@ -12,6 +12,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="csdf" target="19" />
+      <module name="csdf_el" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
