@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ImageRepository extends JpaRepository<DockerImage,Long> {
 
-    public DockerImage getDockerImageByImageName(String imageName);
+    public DockerImage findByImageName(String imageName);
 }

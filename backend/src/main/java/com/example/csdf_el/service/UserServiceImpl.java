@@ -3,14 +3,15 @@ package com.example.csdf_el.service;
 
 import com.example.csdf_el.entity.DockerImage;
 import com.example.csdf_el.entity.User;
-import com.example.csdf_el.model.ImageAdder;
-import com.example.csdf_el.model.UserModel;
+import com.example.csdf_el.dto.ImageAdder;
+import com.example.csdf_el.dto.UserModel;
 import com.example.csdf_el.repository.ImageRepository;
 import com.example.csdf_el.repository.UserRepository;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.print.Doc;
 import java.io.IOException;
 import java.util.*;
 
@@ -76,15 +77,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ArrayList<String> fetchImages(UserModel userModel) {
+    public ArrayList<JsonObject> fetchImages(UserModel userModel) {
         User user = userRepository.findByEmail(userModel.getEmail());
         List<DockerImage> allImages = imageRepository.findAll();
-
-        ArrayList<String> ret = new ArrayList<>();
+        Gson gson = new Gson();
+        ArrayList<JsonObject> ret = new ArrayList<>();
         for (DockerImage d : allImages) {
-            if (d.getUsers().contains(user))
-                ret.add(d.getReport());
+            if (d.getUsers().contains(user)){
+                JsonObject currentImage = gson.fromJson(d.getReport(),JsonObject.class);
+                currentImage.addProperty("image_name",d.getImageName());
+                currentImage.addProperty("image_id",user.getName());
+                ret.add(currentImage);
+            }
+
         }
         return ret;
+    }
+
+    @Override
+    public void addImageTar(ImageAdder imageAdder) {
+
     }
 }

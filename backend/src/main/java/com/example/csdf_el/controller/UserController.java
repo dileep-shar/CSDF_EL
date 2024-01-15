@@ -2,10 +2,10 @@ package com.example.csdf_el.controller;
 
 import com.example.csdf_el.entity.DockerImage;
 import com.example.csdf_el.entity.User;
-import com.example.csdf_el.model.ImageAdder;
-import com.example.csdf_el.model.UserModel;
+import com.example.csdf_el.dto.ImageAdder;
+import com.example.csdf_el.dto.UserModel;
 import com.example.csdf_el.service.UserService;
-import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,13 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.ArrayList;
+
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class UserController {
     @Autowired
     private UserService userService;
-
-    // Validation of user if he exists or not.
     @PostMapping("/user/register")
     public ResponseEntity<?> registerUser(@RequestBody UserModel userModel) {
         User user = userService.registerUser(userModel);
@@ -40,9 +39,12 @@ public class UserController {
 //            throw new RuntimeException(e);
         }
     }
+
+
+
     @PostMapping("/user/uploadImage")
-    public ResponseEntity<?> uploadImage(@RequestBody ImageAdder imageAdder){
-        return new ResponseEntity<>("Not Implemented", HttpStatus.BAD_REQUEST);
+    public ResponseEntity<Object> uploadImage(@RequestBody ImageAdder imageAdder){
+        return  ResponseEntity.ok("Not Implemented");
     }
     @PostMapping("/user/deleteImage")
     public ResponseEntity<?> removeImage(@RequestBody ImageAdder imageAdder){
@@ -51,16 +53,15 @@ public class UserController {
     @PostMapping("/user/fetchAllImages")
     public ResponseEntity<?> fetchAllImages(@RequestBody UserModel userModel) {
         try {
-            ArrayList<String> imageResults = userService.fetchImages(userModel);
-            Gson gson = new Gson();
+            ArrayList<JsonObject> imageResults = userService.fetchImages(userModel);
             System.out.println(imageResults);
-            String jsonArray = gson.toJson(imageResults);
             JsonObject returner = new JsonObject();
-            returner.addProperty("reports", jsonArray);
+            JsonArray jsonArray = new JsonArray();
+            for(JsonObject jsonObject :imageResults)jsonArray.add(jsonObject);
+            returner.addProperty("reports", jsonArray.toString());
             returner.addProperty("status", "200");
             returner.addProperty("message", "okay");
-
-            return new ResponseEntity<>(returner.getAsString(), HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(returner.deepCopy(), HttpStatus.ACCEPTED);
 
         } catch (Exception e) {
             e.printStackTrace();
