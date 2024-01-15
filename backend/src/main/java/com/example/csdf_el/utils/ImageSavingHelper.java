@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
@@ -64,6 +65,25 @@ public class ImageSavingHelper {
 //        return outputJSonStringBuilder.toString();
 //    }
 
+
+    public static String fetchJSONObjectThroughCommandForGithubRepo(String repoLink) throws IOException, InterruptedException {
+        String fileName= "files/results/"+LocalDateTime.now().toString()+".json";
+//        String[] rm_cmd = {"/bin/bash", "-c", "rm results/"+imageId+".json "};
+//        Process proc = Runtime.getRuntime().exec(rm_cmd);
+//        proc.waitFor();
+        String trivy_cmd="trivy repo --security-checks vuln --format json "+ "-o "+fileName+" "+ repoLink ;
+        String[] cmd = {"/bin/bash", "-c",trivy_cmd };
+        Process proc = Runtime.getRuntime().exec(cmd);
+        int exc = proc.waitFor();
+//        System.out.println(exc);
+        Path path= Paths.get(fileName);
+        String jsonString= Files.readString(path);
+        jsonString="{\n\"data\":"+jsonString+"\n}";
+        JsonObject jsonObject = JsonParser.parseString(jsonString).getAsJsonObject();
+        System.out.println(jsonObject.isJsonObject());
+        assert jsonObject.isJsonObject();
+        return jsonString;
+    }
     public String filterJSONObject(String jsonReferenceString) {
         JsonObject jsonObject = JsonParser.parseString(jsonReferenceString).getAsJsonObject();
         JsonObject filteredObject = new JsonObject();

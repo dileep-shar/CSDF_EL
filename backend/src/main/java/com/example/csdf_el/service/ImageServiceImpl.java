@@ -19,10 +19,32 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public DockerImage addOrUpdateImage(String imageName) throws IOException, InterruptedException {
 //        try {
+
+        if(imageRepository.findByImageName(imageName)!=null){
+            return imageRepository.findByImageName(imageName);
+        }
         String report = imageSavingHelper.fetchJSONObjectThroughCommandForImageId(imageName);
         DockerImage dockerImage = new DockerImage();
         dockerImage.setReport(report);
         dockerImage.setImageName(imageName);
+        imageRepository.save(dockerImage);
+//        } catch (Exception e) {
+//            System.out.println("Exception" + e);
+//            return null;
+//        }
+        return dockerImage;
+    }
+
+    @Override
+    public DockerImage addOrUpdateRepo(String githubUrl) throws IOException, InterruptedException {
+
+        if(imageRepository.findByImageName(githubUrl)!=null){
+            return imageRepository.findByImageName(githubUrl);
+        }
+        String report = imageSavingHelper.fetchJSONObjectThroughCommandForGithubRepo(githubUrl);
+        DockerImage dockerImage = new DockerImage();
+        dockerImage.setReport(report);
+        dockerImage.setImageName(githubUrl);
         imageRepository.save(dockerImage);
 //        } catch (Exception e) {
 //            System.out.println("Exception" + e);

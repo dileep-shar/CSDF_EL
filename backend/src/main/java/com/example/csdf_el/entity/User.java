@@ -18,7 +18,6 @@ public class User {
     @Column(unique = true)
     private String email;
 
-
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinTable(
             name = "image_user",
