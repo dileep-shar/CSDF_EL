@@ -4,15 +4,12 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
 import Navbar from "./Navbar";
-import f1 from "../dummy_json/1.json"
-import f2 from "../dummy_json/2.json"
-import f3 from "../dummy_json/3.json"
 import { JSONGrid } from '@redheadphone/react-json-grid'
 import Dropdown from "react-dropdown";
 
 const DeepAnalyse=()=>{
     const [user, loading, err] = useAuthState(auth);
-    const reports=[f1,f2,f3]
+  const [reports,setReports]=useState([])
   const navigate = useNavigate();
   const [sqlData, setsqlData] = useState([]);
   let [type,setType]=useState("")
@@ -34,12 +31,19 @@ const DeepAnalyse=()=>{
     }
     setsqlData(curReport);
   }
+  
   useEffect(() => {
     if (loading) return;
     if (!user) navigate("/login");
+    fetchImages()
   }, [user]);
-  useEffect(() => {
-  }, []);
+const fetchImages=async ()=>{
+  const res=await axios.post("/user/fetchAllImages",{
+    email:user?.email
+  })  
+  setReports(res?.data?.reports)
+  console.log(res.data.reports);
+}
 
 return <div>
 <Navbar/>
@@ -62,7 +66,7 @@ return <div>
             </button>
           </div>
         </div>
-        <JSONGrid data={sqlData}/>
+        {sqlData&&sqlData.length!=0&&<JSONGrid data={sqlData}/>}
 </div>
 
 </div>

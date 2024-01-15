@@ -3,10 +3,7 @@ package com.example.csdf_el;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -19,7 +16,7 @@ public class Temp {
 //        String[] rm_cmd = {"/bin/bash", "-c", "rm results/"+imageId+".json "};
 //        Process proc = Runtime.getRuntime().exec(rm_cmd);
 //        proc.waitFor();
-        String trivy_cmd="trivy image --security-checks vuln --format json "+ "-o "+fileName+" "+ imageId ;
+        String trivy_cmd="trivy repo --security-checks vuln --format json "+ "-o "+fileName+" "+ imageId ;
         String[] cmd = {"/bin/bash", "-c",trivy_cmd };
         Process proc = Runtime.getRuntime().exec(cmd);
         int exc = proc.waitFor();
@@ -27,7 +24,7 @@ public class Temp {
         System.out.println(exc);
         Path path= Paths.get(fileName);
         String jsonString= Files.readString(path);
-        jsonString="{\n\"name\":"+imageId+",\n\"data\":"+jsonString+"\n}";
+        jsonString="{\n\"data\":"+jsonString+"\n}";
         JsonObject jsonObject = JsonParser.parseString(jsonString).getAsJsonObject();
         System.out.println(jsonObject.isJsonObject());
         System.out.println(jsonString);
@@ -36,7 +33,10 @@ public class Temp {
     }
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        fetchJSONObjectThroughCommandForImageId("alpine");
+//        fetchJSONObjectThroughCommandForImageId("https://github.com/aquasecurity/trivy-ci-test");
 //        System.out.println(LocalDateTime.now());
+        File file=new File("alpine.tar");
+        System.out.println(file.getAbsoluteFile());
     }
+
 }

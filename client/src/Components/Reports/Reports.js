@@ -33,7 +33,7 @@ const Reports = ({ email,reports }) => {
     "Pie",
   ];
   let viewType={
-    "Options":reports.map(report=>report.image_name),
+    "Options":reports?.map(report=>report.image_name),
     "Filters":["Basic Info","OS Data","Creation History","Packages","Vulnerabilities"]
   };
   let filterFunctionMapping={
@@ -53,7 +53,9 @@ const Reports = ({ email,reports }) => {
   const handleOnChangeForPackageType=(option)=>{
     setPackages(option.value)
   }
-
+  useEffect(()=>{
+    if(!reports)return;
+  },[reports])
   useEffect(() => {
     let curReport;
     for (let report of reports){

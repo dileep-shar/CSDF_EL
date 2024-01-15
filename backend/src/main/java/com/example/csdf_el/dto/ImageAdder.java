@@ -10,7 +10,7 @@ public class ImageAdder {
     private String imageName;
     private String userType;
     private String userEmail;
-    private File tarFile;
+    private String tarFileBase64String;
     private String githubUrl;
     private String type;
 }

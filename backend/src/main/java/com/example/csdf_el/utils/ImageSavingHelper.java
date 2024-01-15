@@ -12,6 +12,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.Base64;
 
 
 @Component
@@ -27,6 +29,21 @@ public class ImageSavingHelper {
         else if(image.getType().equals(Constant.TYPE_GITHUB_URL)){
             trivy_cmd="trivy repo --security-checks vuln --format json "+ "-o "+fileName+" "+ image.getGithubUrl();
         }
+        else if(image.getType().equals(Constant.TYPE_IMAGE_TAR)){
+            String filePath="files/tars/"+LocalDateTime.now().toString()+".tar";
+//            System.out.println(image.getImageName());
+//            System.out.println(image.getTarFileBase64String());
+            String base64Decodable=image.getTarFileBase64String().split(",")[1];
+            byte [] bytes= Base64.getDecoder().decode(base64Decodable);
+//            System.out.println(Arrays.toString(bytes));
+            Files.write(Path.of(filePath),bytes);
+//            System.out.println(image.getTarFile().getPath());
+//            System.out.println(image.getTarFile().createNewFile());
+//            System.out.println(image.getTarFile());
+            trivy_cmd = "trivy image --security-checks vuln --format json " + "-o " + fileName + " --input " +filePath;
+            System.out.println(trivy_cmd);
+        }
+        System.out.println(trivy_cmd);
         String[] cmd = {"/bin/bash", "-c",trivy_cmd };
         Process proc = Runtime.getRuntime().exec(cmd);
         proc.waitFor();

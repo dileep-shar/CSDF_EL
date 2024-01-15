@@ -36,17 +36,12 @@ public class UserController {
             return new ResponseEntity<>(image.getReport(), HttpStatus.ACCEPTED);
         } catch (Exception e) {
 //            throw new RuntimeException(e);
+            e.printStackTrace();
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 //            throw new RuntimeException(e);
         }
     }
 
-
-
-    @PostMapping("/user/uploadImage")
-    public ResponseEntity<Object> uploadImage(@RequestBody ImageAdder imageAdder){
-        return  ResponseEntity.ok("Not Implemented");
-    }
     @PostMapping("/user/deleteImage")
     public ResponseEntity<?> removeImage(@RequestBody ImageAdder imageAdder){
         return new ResponseEntity<>("Not Implemented", HttpStatus.BAD_REQUEST);

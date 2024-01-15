@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
-import Documents from "./Documents";
 import Navbar from "./Navbar";
 import Upload from "./Upload";
 
@@ -20,7 +19,7 @@ export default function Home() {
   }, []);
 
 
-  return <div class="bg-gray-200 h-screen"><Navbar/>
+  return <div class="bg-gray-200 h-max"><Navbar/>
 <Upload email={user?.email}/>
 </div>
 }

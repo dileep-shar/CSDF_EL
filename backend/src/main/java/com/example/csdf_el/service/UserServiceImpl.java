@@ -1,6 +1,7 @@
 package com.example.csdf_el.service;
 
 
+import com.example.csdf_el.constants.Constant;
 import com.example.csdf_el.entity.DockerImage;
 import com.example.csdf_el.entity.User;
 import com.example.csdf_el.dto.ImageAdder;
@@ -94,8 +95,5 @@ public class UserServiceImpl implements UserService {
         return ret;
     }
 
-    @Override
-    public void addImageTar(ImageAdder imageAdder) {
 
-    }
 }

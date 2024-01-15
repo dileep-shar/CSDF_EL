@@ -18,5 +18,4 @@ public interface UserService {
 
     ArrayList<JsonObject> fetchImages(UserModel userModel);
 
-    void addImageTar(ImageAdder imageAdder);
 }
