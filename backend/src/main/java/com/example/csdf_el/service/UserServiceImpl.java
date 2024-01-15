@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
                 return image;
         }
         System.out.println("Here");
-        DockerImage result = imageService.addOrUpdateImage(imageAdder.getImageName());
+        DockerImage result = imageService.addOrUpdateImage(imageAdder);
         System.out.println("Here2");
         images.add(result);
         userRepository.save(user);
@@ -86,7 +86,7 @@ public class UserServiceImpl implements UserService {
             if (d.getUsers().contains(user)){
                 JsonObject currentImage = gson.fromJson(d.getReport(),JsonObject.class);
                 currentImage.addProperty("image_name",d.getImageName());
-                currentImage.addProperty("image_id",user.getName());
+                currentImage.addProperty("image_id",d.getImageId());
                 ret.add(currentImage);
             }
 

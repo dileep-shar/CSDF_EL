@@ -8,7 +8,8 @@ const Upload = (props) => {
     let id=document.getElementById("docker_image_id_2");
     let res=await axios.post("http://localhost:5000/user/addImage",{
       imageName:id.value,
-      userEmail:props.email
+      userEmail:props.email,
+      type:'image-name',
     })
     console.log(res);
   }

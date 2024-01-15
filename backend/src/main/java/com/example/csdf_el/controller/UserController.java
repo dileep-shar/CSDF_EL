@@ -5,6 +5,7 @@ import com.example.csdf_el.entity.User;
 import com.example.csdf_el.dto.ImageAdder;
 import com.example.csdf_el.dto.UserModel;
 import com.example.csdf_el.service.UserService;
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,17 +52,18 @@ public class UserController {
         return new ResponseEntity<>("Not Implemented", HttpStatus.BAD_REQUEST);
     }
     @PostMapping("/user/fetchAllImages")
-    public ResponseEntity<?> fetchAllImages(@RequestBody UserModel userModel) {
+    public ResponseEntity fetchAllImages(@RequestBody UserModel userModel) {
         try {
             ArrayList<JsonObject> imageResults = userService.fetchImages(userModel);
-            System.out.println(imageResults);
+//            System.out.println(imageResults);
             JsonObject returner = new JsonObject();
             JsonArray jsonArray = new JsonArray();
             for(JsonObject jsonObject :imageResults)jsonArray.add(jsonObject);
-            returner.addProperty("reports", jsonArray.toString());
+            returner.add("reports", jsonArray);
             returner.addProperty("status", "200");
             returner.addProperty("message", "okay");
-            return new ResponseEntity<>(returner.deepCopy(), HttpStatus.ACCEPTED);
+            Gson gson = new Gson();
+            return  ResponseEntity.ok(gson.toJson(returner));
 
         } catch (Exception e) {
             e.printStackTrace();
