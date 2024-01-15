@@ -21,6 +21,6 @@ export default function Home() {
 
 
   return <div class="bg-gray-200 h-screen"><Navbar/>
-<Upload email={user.email}/>
+<Upload email={user?.email}/>
 </div>
 }

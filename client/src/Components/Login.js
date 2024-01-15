@@ -13,7 +13,7 @@ export default function Login() {
     if (loading) return;
     if (!user) return;
     if(user){
-      // registerUser();
+      registerUser();
       navigate("/user")
     }
   }, [user]);

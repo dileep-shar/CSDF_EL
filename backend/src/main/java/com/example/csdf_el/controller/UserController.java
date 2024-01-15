@@ -60,7 +60,7 @@ public class UserController {
             returner.addProperty("status", "200");
             returner.addProperty("message", "okay");
 
-            return new ResponseEntity<>(returner.getAsString(), HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(returner.toString(), HttpStatus.ACCEPTED);
 
         } catch (Exception e) {
             e.printStackTrace();

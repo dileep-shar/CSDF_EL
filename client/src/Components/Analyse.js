@@ -19,8 +19,18 @@ const Analyse=()=>{
     if (!user) navigate("/login");
   }, [user]);
   useEffect(() => {
+    methd()
   }, []);
+const methd=async ()=>{
+  const res=await axios.post("/user/fetchAllImages",{
+    email:"karthikpai08@gmail.com"
+  })  
 
+  // console.log(res.data.reports)
+  let x=JSON.parse(res.data.reports)
+  console.log(x)
+  console.log(JSON.parse(x[0]))
+}
 const reports=[f1,f2,f3]
 return <div>
 <Navbar/>
