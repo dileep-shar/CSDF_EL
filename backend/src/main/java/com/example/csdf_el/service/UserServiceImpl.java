@@ -5,10 +5,12 @@ import com.example.csdf_el.entity.DockerImage;
 import com.example.csdf_el.entity.User;
 import com.example.csdf_el.model.ImageAdder;
 import com.example.csdf_el.model.UserModel;
+import com.example.csdf_el.repository.ImageRepository;
 import com.example.csdf_el.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.print.Doc;
 import java.io.IOException;
 import java.util.*;
 
@@ -20,9 +22,14 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private ImageService imageService;
+    @Autowired
+    private ImageRepository imageRepository;
 
 
     public User registerUser(UserModel userModel) {
+
+        if (userRepository.findByEmail(userModel.getEmail()) != null)
+            return userRepository.findByEmail(userModel.getEmail());
         User user = new User();
         user.setEmail(userModel.getEmail());
         user.setName(userModel.getName());
@@ -71,10 +78,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public ArrayList<String> fetchImages(UserModel userModel) {
         User user = userRepository.findByEmail(userModel.getEmail());
-        System.out.println(user);
+        List<DockerImage> allImages = imageRepository.findAll();
+
         ArrayList<String> ret = new ArrayList<>();
-        for(DockerImage d:user.getImageFiles()){
-            ret.add(d.getReport());
+        for (DockerImage d : allImages) {
+            if (d.getUsers().contains(user))
+                ret.add(d.getReport());
         }
         return ret;
     }

@@ -16,11 +16,12 @@ public class DockerImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long imageId;
+    @Column(unique = true)
     private String imageName;
     @NonNull
     @Column(columnDefinition = "JSON")
     private String report;
 
-    @ManyToMany(mappedBy = "imageFiles")
+    @ManyToMany(mappedBy = "imageFiles",fetch = FetchType.EAGER)
     private Set<User> users;
 }
