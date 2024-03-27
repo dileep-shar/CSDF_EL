@@ -21,7 +21,7 @@ export default function Login() {
 
   async function registerUser() {
     try{
-  let res=await axios.post("http://localhost:5000/user/register",{
+  let res=await axios.post("/user/register",{
     name:user.displayName,
         email:user.email
   })
