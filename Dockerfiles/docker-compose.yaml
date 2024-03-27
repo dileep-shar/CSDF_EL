@@ -1,0 +1,56 @@
+version: '3.7'
+
+services:
+  backend:
+    build: 
+      context:  .
+      dockerfile: Dockerfile.backend
+    image: kptriescoding/csdf-backend
+    privileged: true
+    container_name: csdf-backend
+    volumes:
+      - ./backend:/CSDF_EL/backend
+    ports:
+      - "5000:5000"
+    # environment:
+    #   - spring.datasource.url="jdbc:mysql://mysql:3306/csdf_triv"
+    depends_on:
+      - mysql
+    networks:
+      - app-network
+  client:
+    build:
+      context: .
+      dockerfile: Dockerfile.client
+    image: kptriescoding/csdf-client
+    container_name: csdf-client
+    volumes:
+      - ./client:/CSDF_EL/client
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+  mysql:
+    image: mysql
+    volumes:
+      - ./data-volume:/data/mysql
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_USER=springboot-user
+      - MYSQL_PASSWORD=csdf-mysql123
+      - MYSQL_ROOT_PASSWORD=csdf-mysql123
+      - MYSQL_DATABASE=csdf_trivy
+    networks:
+      - app-network
+networks:
+    app-network:
+        driver: bridge
+
+volumes:
+    data-volume:
+    node_modules:
+    web-root:
+      driver: local
