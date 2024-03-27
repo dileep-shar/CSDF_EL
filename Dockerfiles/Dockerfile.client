@@ -1,0 +1,10 @@
+FROM node:20
+RUN apt-get update
+RUN apt-get -qq -y upgrade
+RUN apt-get -qq -y install git
+WORKDIR /
+RUN git clone https://github.com/dileep-shar/CSDF_EL.git
+WORKDIR /CSDF_EL/client
+RUN npm install
+CMD ["npm","start"]
+EXPOSE 3000
