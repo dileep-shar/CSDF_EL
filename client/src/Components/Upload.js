@@ -6,7 +6,7 @@ const Upload = (props) => {
   const addImageId=async()=>{
     try{
     let id=document.getElementById("docker_image_id_2");
-    let res=await axios.post("http://localhost:5000/user/addImage",{
+    let res=await axios.post("/user/addImage",{
       imageName:id.value,
       userEmail:props.email,
       type:'image-name',
@@ -25,7 +25,7 @@ const Upload = (props) => {
   const addGithubUrl=async()=>{
     try{
     let id=document.getElementById("docker_image_id_3");
-    let res=await axios.post("http://localhost:5000/user/addImage",{
+    let res=await axios.post("/user/addImage",{
       imageName:id.value,
       githubUrl:id.value,
       userEmail:props.email,
@@ -63,7 +63,7 @@ const Upload = (props) => {
       };
       console.log(typeof(reader.result))
       console.log(data);
-      const res = await axios.post("http://localhost:5000/user/addImage", data);
+      const res = await axios.post("/user/addImage", data);
       // console.log(res.data);
       alert("File Uploaded")
     }
